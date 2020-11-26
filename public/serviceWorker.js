@@ -1,4 +1,4 @@
-const cache = 'budget-tracker'
+const cache = 'budget-tracker-v2'
 const cacheFiles = [
     '/',
     '/icons/icon-192x192.png',
@@ -31,9 +31,14 @@ self.addEventListener('activate', event => {
         caches
             .keys()
             .then(keyList => {
-                //iterate through each key and return a promise
+                //delete old file versions
                 return Promise.all(
-
+                    keyList.map(key => {
+                        if (key !== cache) {
+                            console.log('Deleting cache: ', key);
+                            return caches.delete(key);
+                        }
+                    })
                 )
             })
             .catch(err => console.log('Activation error: ', err))
