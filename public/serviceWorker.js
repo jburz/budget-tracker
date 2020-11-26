@@ -1,4 +1,5 @@
-const cache = 'budget-tracker-v2'
+const fileCache = 'file-v1'
+const dataCache = 'data-v1'
 const cacheFiles = [
     '/',
     '/icons/icon-192x192.png',
@@ -15,7 +16,7 @@ self.addEventListener('install', event => {
     console.log("hit install");
     event.waitUntil(
         caches
-            .open(cache)
+            .open(fileCache)
             .then(cache => {
                 return cache.addAll(cacheFiles);
             })
@@ -34,7 +35,7 @@ self.addEventListener('activate', event => {
                 //delete old file versions
                 return Promise.all(
                     keyList.map(key => {
-                        if (key !== cache) {
+                        if (key !== fileCache && key !== dataCache) {
                             console.log('Deleting cache: ', key);
                             return caches.delete(key);
                         }
@@ -51,12 +52,12 @@ self.addEventListener('fetch', (event) => {
     if (event.request.url.includes('/api')) {
         return event.respondWith(
             caches
-                .open(cache)
+                .open(dataCache)
                 .then(cache => {
                     return fetch(event.request)
                         .then(res => {
                             if (res.status === 200) {
-                                cache.put(e.request.url, res.clone());
+                                cache.put(event.request.url, res.clone());
                             }
                             return res;
                         })
