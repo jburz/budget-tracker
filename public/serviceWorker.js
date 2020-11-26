@@ -1,5 +1,3 @@
-console.log("hit serviceWorker.js");
-
 const cache = 'budget-tracker'
 const cacheFiles = [
     '/',
