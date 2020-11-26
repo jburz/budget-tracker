@@ -23,7 +23,7 @@ self.addEventListener('install', event => {
             })
             .catch(err => console.log('Error caching files on install: ', err))
     );
-
+    self.skipWaiting();
 });
 
 //service worker new install
