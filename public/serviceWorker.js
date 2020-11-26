@@ -29,4 +29,16 @@ self.addEventListener('install', event => {
 //service worker new install
 self.addEventListener('activate', event => {
     console.log("hit activate");
+    event.waitUntil(
+        caches
+            .keys()
+            .then(keyList => {
+                //iterate through each key and return a promise
+                return Promise.all(
+
+                )
+            })
+            .catch(err => console.log('Activation error: ', err))
+    );
+    self.clients.claim();
 });
