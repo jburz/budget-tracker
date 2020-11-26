@@ -45,3 +45,28 @@ self.addEventListener('activate', event => {
     );
     self.clients.claim();
 });
+
+//api caching
+self.addEventListener('fetch', (event) => {
+    if (event.request.url.includes('/api')) {
+        return event.respondWith(
+            caches
+                .open(cache)
+                .then(cache => {
+                    return fetch(event.request)
+                        .then(res => {
+                            if (res.status === 200) {
+                                cache.put(e.request.url, res.clone());
+                            }
+                            return res;
+                        })
+                        .catch(err => {
+                            return cache.match(event.request);
+                        })
+                })
+                .catch(err => console.log('Error fetching api: ', err))
+        );
+    }
+
+
+});
