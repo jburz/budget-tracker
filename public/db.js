@@ -1,7 +1,8 @@
 //create new database
+console.log('hit db.js');
 let db;
 //db name and version #
-const request = indexedDB.open("budget", 1);
+const request = indexedDB.open("budget", 2);
 
 //create object store on upgrade
 request.onupgradeneeded = (event) => {
@@ -11,7 +12,7 @@ request.onupgradeneeded = (event) => {
 
 //successful database connection
 request.onsuccess = (event) => {
-    db = event.targt.result;
+    db = event.target.result;
 
     if (navigator.onLine) {
         checkDatabase();
