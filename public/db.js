@@ -52,12 +52,15 @@ function checkDatabase() {
                 headers: {
                     Accept: "application/json, text/plain, */*", "Content-Type": "application/json"
                 }
-            }).then(res => res.json())
+            }).then(res => res.json()
                 .then(() => {
                     const transaction = db.transaction(["pending"], "readwrite");
                     const store = transaction.store("pending");
                     store.clear();
-                });
+                })
+                .catch(err => console.log("Error clearing transaction: ", err))
+            )
+                .catch(err => console.log("Error fetching transactions: ", err));
         }
     };
 }
